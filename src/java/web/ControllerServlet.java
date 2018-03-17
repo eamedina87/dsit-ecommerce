@@ -1,5 +1,7 @@
 package web;
 
+import web.action.viewcartAction;
+import web.action.neworderAction;
 import web.action.categoryAction;
 import java.io.*;
 import javax.servlet.*;
@@ -22,11 +24,11 @@ public class ControllerServlet extends HttpServlet {
 
         actionMap.put("/init.do", new initAction((CategoryModel) context.getAttribute("categoryModel")));
         actionMap.put("/category.do", new categoryAction((CategoryModel) context.getAttribute("categoryModel"),(ProductModel) context.getAttribute("productModel")));
-//        actionMap.put("/neworder.do", new neworderAction((CategoryModel) context.getAttribute("categoryModel"),(ProductModel) context.getAttribute("productModel")));
-//        actionMap.put("/viewcart.do", new viewcartAction());
+        actionMap.put("/neworder.do", new neworderAction((CategoryModel) context.getAttribute("categoryModel"),(ProductModel) context.getAttribute("productModel")));
+        actionMap.put("/viewcart.do", new viewcartAction());
 //        actionMap.put("/updatecart.do", new updatecartAction((ProductModel) context.getAttribute("productModel")));
-//        actionMap.put("/clearcart.do", new clearcartAction());
-//        actionMap.put("/checkout.do", new checkoutAction());
+        actionMap.put("/clearcart.do", new clearcartAction());
+        actionMap.put("/checkout.do", new checkoutAction());
 
     }
 

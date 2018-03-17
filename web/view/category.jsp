@@ -4,25 +4,34 @@
     Author     : Erick
 --%>
 
+<%@page import="cart.ShoppingCart"%>
 <%@page import="entity.Product"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.Category"%>
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <%
+<%
         List<Category> categories = (List<Category>) request.getAttribute("categories");
         Category selectedCategory = (Category) request.getAttribute("selectedCategory");
         List<Product> products = (List<Product>) request.getAttribute("products");
-        
+        ShoppingCart cart = (ShoppingCart) request.getSession().getAttribute("cart");
+
         %>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+        <title><%=selectedCategory.getName()%></title>
+    </head>
+    <body>
+        
         <h1>Products of <%=selectedCategory.getName()%></h1>
        
+        <% if (cart.isEmpty()) { %>
+        <img src="./img/cart.gif" alt="Cart"/> <%=cart.getSize()%> items
+        <% } else {%>
+        <a href="viewcart.do" ><img src="./img/cart.gif" alt="Cart"/> <%=cart.getSize()%> items</a>
+        <% }%>
+        
         <table style="width:100%">
             <tr>
                 <!-- INCLUDE CATEGORIES HERE-->

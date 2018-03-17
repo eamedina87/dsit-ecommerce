@@ -16,6 +16,63 @@ import entity.Product;
  */
 public class ShoppingCartItem {
 
+    private String name;
+    private float price;
+    private String description;
+    private int quantity;
+
+    public ShoppingCartItem(){
+        setQuantity(1);
+    }
+
+    public ShoppingCartItem(Product product) {
+        setName(product.getName());
+        setPrice(product.getPrice());
+        setDescription(product.getDescription());
+        setQuantity(1);
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void increaseQuantity() {
+        setQuantity(getQuantity()+1);
+    }
+    
+    public double getTotal(){
+        return getQuantity()*getPrice();
+    }
+                    
+    
     
 
 }

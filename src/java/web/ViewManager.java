@@ -13,6 +13,7 @@ public class ViewManager {
                 dispatcher.forward(req, resp);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error at dispatcher in nextView " + e.toString());
         }
     }
