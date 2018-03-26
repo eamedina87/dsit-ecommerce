@@ -43,7 +43,6 @@ public class updatecartAction extends Action{
             ViewManager.nextView(req, resp, "/view/shoppingcart.jsp");
         }
         
-        
     }
     
 }

@@ -31,8 +31,17 @@
         <h1>Your shopping cart contains <%=cart.getSize()%> items.</h1>
         <a href="clearcart.do">Clear cart</a><br><br>
         <a href="init.do">Continue shopping</a><br><br>
-        <div id="paypal-button">Paypal</div><br><br>
-        <a href="#">Proceed to checkout</a>
+        
+        <input type="hidden" name="cmd" value="_ext-enter">
+        <form action="https://www.paypal.com/us/cgi-bin/webscr" method="post">
+           <input type="hidden" name="cmd" value="_xclick">
+           <input type="hidden" name="business" value="eamedina@protonmail.com">
+           <input type="hidden" name="item_name" value="Affable Bean Green Grocer order">
+           <input type="hidden" name="currency_code" value="EUR">
+           <input type="hidden" name="amount" value="<%=cart.getTotalAmount()%>">
+           <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+        </form>
+
         
        <% }%>
         
@@ -69,59 +78,8 @@
                 
             </tr>
         </table>    
-        <script>
-            paypal.Button.render({
-              env: 'sandbox', // Or 'sandbox',production
-              client: {
-                    sandbox:    'AUvo-OBNYTS37vHBvPcjK6UwiG5oVP3D__iXbrI4eoebdQnHBCAFw-_w0oOG8eQbGWDP5bm5qh-KCjWr',
-                    production: 'xxxxxxxxx'
-                },
-              commit: true, // Show a 'Pay Now' button
-
-              style: {
-                color: 'silver',
-                size: 'small',
-                shape: 'pill'
-              },
-
-              payment: function(data, actions) {
-                /* 
-                 * Set up the payment here 
-                 */
-                return actions.payment.create({
-                payment: {
-                    transactions: [
-                        {
-                            amount: { total: '100.00', currency: 'USD' }
-                        }
-                    ]
-                }
-            });
-              },
-
-              onAuthorize: function(data, actions) {
-                /* 
-                 * Execute the payment here 
-                 */
-                return actions.payment.execute().then(function(payment) {
-
-                // The payment is complete!
-                // You can now show a confirmation message to the customer
-            });
-              },
-
-              onCancel: function(data, actions) {
-                /* 
-                 * Buyer cancelled the payment 
-                 */
-              },
-
-              onError: function(err) {
-                /* 
-                 * An error occurred during the transaction 
-                 */
-              }
-            }, '#paypal-button');
-          </script>
+                        <b> Total amount: <%=String.format("%.2f", cart.getTotalAmount())%></b>                                
+                        
+        
     </body>
 </html>

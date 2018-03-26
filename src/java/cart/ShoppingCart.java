@@ -24,7 +24,14 @@ public class ShoppingCart {
 
 
     public synchronized float getTotalAmount() {
-        return totalAmount;
+        float amount = 0;
+        Iterator<Map.Entry<Product, ShoppingCartItem>> iterator = items.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Product, ShoppingCartItem> entry = iterator.next();
+            ShoppingCartItem item = entry.getValue();
+            amount = amount + (item.getPrice() * item.getQuantity());
+        }
+        return amount;
     }
 
     public synchronized void setTotalAmount(float totalAmount) {
