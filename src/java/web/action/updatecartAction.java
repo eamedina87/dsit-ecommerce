@@ -6,12 +6,10 @@
 package web.action;
 
 import cart.ShoppingCart;
-import cart.ShoppingCartItem;
 import entity.Category;
 import entity.Product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CategoryModel;
 import model.ProductModel;
 import web.ViewManager;
 
@@ -19,13 +17,11 @@ import web.ViewManager;
  *
  * @author Erick
  */
-public class neworderAction extends Action{
+public class updatecartAction extends Action{
 
     private final ProductModel productModel;
-    private final CategoryModel categoryModel;
 
-    public neworderAction(CategoryModel categoryModel, ProductModel productModel) {
-        this.categoryModel = categoryModel;
+    public updatecartAction(ProductModel productModel) {
         this.productModel = productModel;
     }
 
@@ -33,22 +29,21 @@ public class neworderAction extends Action{
     public void perform(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         int productid = Integer.parseInt(req.getParameter("productid"));
-        int categoryid = Integer.parseInt(req.getParameter("categoryid"));
+        String quantity = req.getParameter("number");
         
         ShoppingCart cart = (ShoppingCart) req.getSession().getAttribute("cart");
-        Category category = categoryModel.retrieveById(categoryid);
         Product product = productModel.retrieveById(productid);
         
-        cart.addItem(product);
+        try {
+            cart.update(product, quantity);
+            req.getSession().setAttribute("cart", cart);
+        } catch (Exception e){
         
-        req.setAttribute("categories", categoryModel.retrieveAll());
-        req.setAttribute("selectedCategory", category);
-        req.setAttribute("products", productModel.retrieveAllForCategory(category));
-        req.getSession().setAttribute("cart", cart);
+        } finally {
+            ViewManager.nextView(req, resp, "/view/shoppingcart.jsp");
+        }
         
-        ViewManager.nextView(req, resp, "/view/category.jsp");
+        
     }
-    
-    
     
 }

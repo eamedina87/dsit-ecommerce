@@ -49,11 +49,16 @@
                             <td> <%=item.getPrice()%>€/unit</td>
                             <td> <form action="updatecart.do" method="post">
                                     <input type="number"
-                                    name="number"
-                                    value="<%=item.getQuantity()%>">
+                                           min="0"
+                                           max="99"
+                                            name="number"
+                                            value="<%=item.getQuantity()%>">
+                                    <input type="hidden"
+                                            name="productid"
+                                            value="<%=item.getProductId()%>">
                                     <input type="submit"
-                                    name="update"
-                                    value="update">
+                                            name="update"
+                                            value="update">
                                   </form>
                             </td>
                         </tr>

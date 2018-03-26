@@ -10,21 +10,18 @@ import java.util.*;
  */
 public class ShoppingCart {
 
-    private List<ShoppingCartItem> items;
+    private Map<Product, ShoppingCartItem> items;
     private float totalAmount;
 
     public ShoppingCart(){
-        items = new ArrayList<ShoppingCartItem>();
+        items = new HashMap<Product, ShoppingCartItem>();
         totalAmount = 0;
     }
     
     public synchronized List<ShoppingCartItem> getItems() {
-        return items;
+        return new ArrayList<ShoppingCartItem>(items.values());
     }
 
-    public synchronized  void setItems(List<ShoppingCartItem> items) {
-        this.items = items;
-    }
 
     public synchronized float getTotalAmount() {
         return totalAmount;
@@ -34,25 +31,42 @@ public class ShoppingCart {
         this.totalAmount = totalAmount;
     }
 
-    public synchronized void addItem(ShoppingCartItem item) {
-        if (items.contains(item)){
-            ShoppingCartItem scitem = items.get(items.indexOf(item));
+    public synchronized void addItem(Product product) {
+        if (items.containsKey(product)){
+            ShoppingCartItem scitem = items.get(product);
             scitem.increaseQuantity();
-            items.add(item);
+            items.replace(product, scitem);
         } else {
-            items.add(item);
+            items.put(product, new ShoppingCartItem(product));
         }
         
     }
     
-    
+    public synchronized void update(Product product, String quantity) {
+        int quantityInt = Integer.parseInt(quantity);
+        if (quantityInt>0){
+            ShoppingCartItem scitem = items.get(product);
+            scitem.setQuantity(quantityInt);
+            items.replace(product, scitem);
+        } else {
+            items.remove(product);
+        }
+        
+    }
 
     public synchronized int getSize(){
-        return items.size();
+        int counter = 0;
+        Iterator<Map.Entry<Product, ShoppingCartItem>> iterator = items.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Product, ShoppingCartItem> entry = iterator.next();
+            ShoppingCartItem item = entry.getValue();
+            counter = counter +item.getQuantity();
+        }
+        return counter;
     }
 
     public synchronized void clear() {
-        items = new ArrayList<ShoppingCartItem>();
+        items = new HashMap<Product, ShoppingCartItem>();
         totalAmount = 0;
     }
     

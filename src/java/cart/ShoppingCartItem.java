@@ -20,16 +20,25 @@ public class ShoppingCartItem {
     private float price;
     private String description;
     private int quantity;
+    private Product product;
 
     public ShoppingCartItem(){
         setQuantity(1);
     }
 
     public ShoppingCartItem(Product product) {
+        this.product = product;
         setName(product.getName());
         setPrice(product.getPrice());
         setDescription(product.getDescription());
         setQuantity(1);
+    }
+
+    public ShoppingCartItem(Product product, int quantity) {
+        setName(product.getName());
+        setPrice(product.getPrice());
+        setDescription(product.getDescription());
+        setQuantity(quantity);
     }
     
     public String getName() {
@@ -72,7 +81,9 @@ public class ShoppingCartItem {
         return getQuantity()*getPrice();
     }
                     
-    
+    public int getProductId(){
+        return product.getId();
+    }
     
 
 }
